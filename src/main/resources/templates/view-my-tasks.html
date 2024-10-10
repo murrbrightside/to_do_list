@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Task List</title>
+</head>
+<body>
+
+<h3>Ваши задачи для пользователя <b th:text="${username}"></b></h3>
+<br>
+
+<table border="1">
+    <tr>
+        <th>Название</th>
+        <th>Описание</th>
+        <th>Статус задачи</th>
+        <th>Дата создания</th>
+        <th>Крайний срок</th>
+        <th>Операции</th>
+    </tr>
+
+    <!-- Используем th:each для цикла по задачам -->
+    <tr th:each="task : ${allTasks}">
+        <td th:text="${task.title}"></td>
+        <td th:text="${task.description}"></td>
+        <td th:text="${task.taskStatus}"></td>
+        <td th:text="${task.creationDate}"></td>
+        <td th:text="${task.due}"></td>
+        <td>
+            <!-- Кнопка для обновления задачи -->
+            <button type="button"
+                    th:onclick="|window.location.href = '@{/editTask(taskId=${task.id})}'|">
+                Update
+            </button>
+
+            <button type="button"
+                    th:onclick="|window.location.href = '@{/deleteTask(taskId=${task.id})}'|">
+                Delete
+            </button>
+        </td>
+      
+    </tr>
+</table>
+<br>
+
+<!-- Кнопка для добавления новой задачи -->
+<input type="button" value="Add"
+       onclick="window.location.href = '/addNewTask'"/>
+
+</body>
+</html>
