@@ -45,6 +45,9 @@
 <!-- Кнопка для добавления новой задачи -->
 <input type="button" value="Add"
        onclick="window.location.href = '/addNewTask'"/>
+<br>
+<form th:action="@{/logout}" method="post">
+    <input type="submit" value="Sign Out"/>
 
 </body>
 </html>

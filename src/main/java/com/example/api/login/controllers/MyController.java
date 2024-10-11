@@ -86,6 +86,11 @@ public class MyController {
         taskRepository.deleteById(id);
         return "redirect:/";
     }
+    @RequestMapping("/login")
+    public String login(){
+
+        return "login";
+    }
 
 
 }

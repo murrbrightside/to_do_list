@@ -24,13 +24,11 @@ public class WebSecurityCon {
                 .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry ->
                         authorizationManagerRequestMatcherRegistry
                                 .anyRequest().authenticated())
-                .formLogin(form -> form
+                .formLogin((form) -> form
+                        .loginPage("/login")
                         .permitAll()
-                        .defaultSuccessUrl("/", true) // При успешном входе на корень
-                        .failureUrl("/login?error=true")) // При неудаче перенаправление на login
-                .logout(logout -> logout
-                        .permitAll()
-                        .logoutSuccessUrl("/login"))
+                )
+                .logout((logout) -> logout.permitAll())
                 .sessionManagement(httpSecuritySessionManagementConfigurer ->
                         httpSecuritySessionManagementConfigurer
                                 .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)); // Включаем управление сессиями
