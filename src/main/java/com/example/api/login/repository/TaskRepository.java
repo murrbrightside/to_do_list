@@ -1,4 +1,4 @@
-package com.example.api.login.reposutory;
+package com.example.api.login.repository;
 
 import com.example.api.login.entity.Task;
 import org.springframework.data.repository.CrudRepository;

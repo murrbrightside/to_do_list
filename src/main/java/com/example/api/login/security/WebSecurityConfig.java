@@ -15,23 +15,23 @@ import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
-public class WebSecurityCon {
+public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain applicationSecurity(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable()) // Отключение CSRF для простоты. Но лучше использовать его правильно.
-                .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry ->
-                        authorizationManagerRequestMatcherRegistry
-                                .anyRequest().authenticated())
-                .formLogin((form) -> form
+                .csrf(csrf -> csrf.disable()) // Отключаем CSRF для упрощения (обратите внимание, что это не рекомендуется для продакшн)
+                .authorizeHttpRequests(authorization -> authorization
+                        .requestMatchers("/registration", "/saveUser", "/login").permitAll() // Разрешаем доступ к страницам регистрации и логина
+                        .anyRequest().authenticated() // Все остальные запросы требуют аутентификации
+                )
+                .formLogin(form -> form
                         .loginPage("/login")
                         .permitAll()
                 )
-                .logout((logout) -> logout.permitAll())
-                .sessionManagement(httpSecuritySessionManagementConfigurer ->
-                        httpSecuritySessionManagementConfigurer
-                                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)); // Включаем управление сессиями
+                .logout(logout -> logout.permitAll())
+                .sessionManagement(sessionManagement ->
+                        sessionManagement.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)); // Управление сессиями
 
         return http.build();
     }
@@ -40,7 +40,7 @@ public class WebSecurityCon {
     public UserDetailsService userDetailsService(DataSource dataSource) {
         JdbcUserDetailsManager userDetailsManager = new JdbcUserDetailsManager(dataSource);
         userDetailsManager.setUsersByUsernameQuery(
-                "SELECT username, password, enabled FROM users WHERE username = ?");
+                "SELECT username, password, enable FROM users WHERE username = ?"); // Обратите внимание на "enable"
         userDetailsManager.setAuthoritiesByUsernameQuery(
                 "SELECT username, authority FROM authorities WHERE username = ?");
         return userDetailsManager;
@@ -48,6 +48,6 @@ public class WebSecurityCon {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(); // BCrypt для хэширования паролей
+        return new BCryptPasswordEncoder(); // Используем BCrypt для хэширования паролей
     }
 }

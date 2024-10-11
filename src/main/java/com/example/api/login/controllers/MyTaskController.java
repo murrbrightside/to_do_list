@@ -1,7 +1,7 @@
 package com.example.api.login.controllers;
 
 import com.example.api.login.entity.Task;
-import com.example.api.login.reposutory.TaskRepository;
+import com.example.api.login.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
-public class MyController {
+public class MyTaskController {
 
     @Autowired
     private TaskRepository taskRepository;
@@ -44,7 +44,6 @@ public class MyController {
         // Создаем новую задачу и добавляем в модель
         Task task = new Task();
         model.addAttribute("username", username);
-        System.out.println(model.getAttribute(username));
         model.addAttribute("task", task);
 
         return "view-create-task"; // Переход на страницу создания новой задачи

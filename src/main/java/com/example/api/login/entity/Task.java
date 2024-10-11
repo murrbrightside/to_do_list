@@ -11,8 +11,8 @@ import java.sql.Date;
 
 @Getter
 @Setter
-@NoArgsConstructor     // Конструктор без параметров
-@AllArgsConstructor    // Конструктор со всеми параметрами
+@NoArgsConstructor
+@AllArgsConstructor
 
 @Entity
 @Table(name = "tasks")
